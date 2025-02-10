@@ -5,6 +5,12 @@ mov ax, 0x7E0
 mov ss, ax
 mov sp, 0x2000
 
+call clearwindow
+
+push 0x0000
+call movecursor
+add sp, 2
+
 push bmsg
 call print_string
 
@@ -51,6 +57,41 @@ char:
     jmp char
 
 done:
+
+    mov sp, bp
+    pop bp
+
+    ret
+
+clearwindow:
+
+    push bp
+    mov bp, sp
+
+    mov ah, 0x07
+    mov al, 0x00
+    mov bh, 0x07
+    mov cx, 0x00        ; specifies top left of screen as (0,0)
+    mov dh, 0x18        ; 18h = 24 rows of chars
+    mov dl, 0x4f        ; 4fh = 79 cols of chars
+
+    int 0x10
+
+    mov sp, bp
+    pop bp
+
+    ret
+
+movecursor:
+
+    push bp
+    mov bp, sp
+
+    mov dx, [bp+4]
+    mov ah, 0x02
+    mov bh, 0x00
+    
+    int 0x10
 
     mov sp, bp
     pop bp
