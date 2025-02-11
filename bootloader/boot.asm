@@ -3,7 +3,7 @@ org 0x7C00
 
 mov ax, 0x7E0
 mov ss, ax
-mov sp, 0x2000
+mov sp, 0x4000
 
 call clearwindow
 
@@ -31,7 +31,7 @@ jmp 0x1000:0x0000
 
 failed:
 
-    mov si, msg
+    push msg
     call print_string
     hlt
 

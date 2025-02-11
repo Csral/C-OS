@@ -1,9 +1,9 @@
 bits 16
-org 0x1000
+org 0x2000
 
 _start:
 
-    mov ax, 0x1000
+    mov ax, 0x2000
     mov ds, ax
     mov es, ax
     
@@ -11,39 +11,28 @@ _start:
     mov ss, ax
     mov sp, 0x4000
 
-    push 0x0100
-    call movecursor
-    add sp, 2
-
-    mov ah, 0x0e
-    mov al, "?"
-    mov bh, 0
-
-    int 0x10
-
-    push 0x0200
+    push 0x0300
     call movecursor
     add sp, 2
 
     push kmsg
     call print_string
-    add sp, 2
-    
+
     mov ah, 0x02
-    mov al, 0x01 ; read only 1 sector
-    mov ch, 0 ; cylindered 0
-    mov cl, 3 ; 2nd sector (bootloader in sector 1)
-    mov dh, 0 ; head 0
-    mov dl, 0x80 ; read from harddrive
-    mov bx, 0x2000 ; kernel address
+    mov al, 0x01
+    mov dh, 0x00
+    mov dl, 0x80 ; hard drive
+    mov ch, 0x00
+    mov cl, 0x04 ; 4th sector
+    mov bx, 0x3000
     mov es, bx
 
-    int 0x13 ; bios int.
+    int 0x13
 
     jc failed
 
-    jmp 0x2000:0x0000
-
+    jmp 0x3000:0x0000
+    
     cli
     hlt
 
@@ -116,7 +105,8 @@ done:
     pop bp
 
     ret
-emsg db "Failed to load dummy", 0
-kmsg db "Hello from kernel", 0
+
+kmsg db "Hello from dummy", 0
+emsg db "Failed to load dummy 2", 0
 
 times 512 - ( $ - $$ ) db 0
