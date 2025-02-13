@@ -1,5 +1,5 @@
 bits 16
-org 0x1000
+org 0x0000
 
 _start:
 
@@ -37,6 +37,7 @@ _start:
     mov dl, 0x80 ; read from harddrive
     mov bx, 0x2000 ; kernel address
     mov es, bx
+    xor bx, bx     ; BX=0
 
     int 0x13 ; bios int.
 

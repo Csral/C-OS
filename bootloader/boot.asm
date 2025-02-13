@@ -22,6 +22,7 @@ mov dh, 0 ; head 0
 mov dl, 0x80 ; read from harddrive
 mov bx, 0x1000 ; kernel address
 mov es, bx
+xor bx, bx     ; BX=0
 
 int 0x13 ; interrupt BIOS
 

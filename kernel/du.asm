@@ -1,5 +1,5 @@
 bits 16
-org 0x3000
+org 0x0000
 
 _start:
 
