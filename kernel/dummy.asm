@@ -1,5 +1,5 @@
 bits 16
-org 0x2000
+org 0x0000
 
 _start:
 
@@ -26,6 +26,7 @@ _start:
     mov cl, 0x04 ; 4th sector
     mov bx, 0x3000
     mov es, bx
+    xor bx, bx     ; BX=0
 
     int 0x13
 
